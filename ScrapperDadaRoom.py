@@ -14,6 +14,7 @@ def getNumVisits(ad):
 		soup = BeautifulSoup(response, 'lxml')
 		labelHot = soup.find_all('div', attrs={'class': 'label-hot'})
 		people = labelHot[1].find_all('span', attrs={'class': 'label'})
+		time.sleep(1)
 		return [people[0].text, time.strftime("%Y-%m-%d %H:%M:%S")]
 	except:
 		return ['0', time.strftime("%Y-%m-%d %H:%M:%S")]
@@ -65,6 +66,6 @@ while True:
 	logFile.close()
 
 	row += 1
-	time.sleep(20)
+	time.sleep(30)
 
 
