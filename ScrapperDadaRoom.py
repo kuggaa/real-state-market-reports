@@ -62,7 +62,7 @@ while True:
 	sheet3.write(row, 0, date)
 	sheet3.write(row, 1, visits)
 
-	book.save("Experiment2-"+sys.argv[1]+".xls")
+	book.save("Experiment3-"+sys.argv[1]+".xls")
 	logFile.close()
 
 	row += 1
