@@ -6,6 +6,8 @@
 #Check phantmjs exec path:
 # 	/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs
 
+#http://www.compartodepa.com.mx/search/profiles/H161215225422750?lat=19.4298610687256&lng=-99.1676177978516&amin=18&amax=99&gen=0&occ=0&pic=0
+#http://www.compartodepa.com.mx/search/profiles/H161215225422750?lat=19.4298610687256&lng=-99.1676177978516&amin=18&amax=99&gen=0&occ=0&pic=0
 
 from selenium import webdriver
 import time
@@ -50,18 +52,7 @@ sheet1.write(0, 4, "budget")
 sheet1.write(0, 5, "movingDate")
 sheet1.write(0, 6, "freshness")
 
-baseURL = 'http://www.compartodepa.com.mx/search/profiles/'
-adId = 'H16121422021105'
-radius = '15000'
-#amin,amax = age
-#gen = gender
-#occ = ocupation (professional, student)
-#pic = only pictures, yes or not
-#str = order (less/more budget, less/more recent)
-#rad = radius
-#lat, lng = location
-#pag = number of pagination
-URL = baseURL+adId+'?amin=18&amax=99&gen=0&occ=0&pic=0&srt=1&rad='+radius+'&lat=19.338451385498&lng=-99.2607192993164'
+URL = 'http://www.compartodepa.com.mx/search/profiles/H1612160264747?amin=18&amax=99&gen=0&occ=0&pic=0&srt=3&rad=2000&lat=19.359167098999&lng=-99.2704620361328'
 
 driver = webdriver.PhantomJS(executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs')
 numPages = getNumPages(driver, URL)
@@ -88,7 +79,7 @@ while pageCounter <= numPages:
 		sheet1.write(rowCounter, 5, movingDate)
 		sheet1.write(rowCounter, 6, freshness)
 		rowCounter = rowCounter + 1
-		book.save("Report-"+adId+'1-'+sys.argv[1]+".xls")
+		book.save("Report-SantaFe"+".xls")
 
 	pageCounter = pageCounter + 1
 
