@@ -52,7 +52,7 @@ sheet1.write(0, 4, "budget")
 sheet1.write(0, 5, "movingDate")
 sheet1.write(0, 6, "freshness")
 
-URL = 'http://www.easyroommate.com/search/profiles/H170112195046737?amin=18&amax=99&gen=0&occ=0&pic=0&pag=1&srt=3&rad=2000&lat=40.6767921447754&lng=-73.9819564819336'
+URL = 'http://www.easyroommate.com/search/profiles/H170112195046737?amin=18&amax=99&gen=0&occ=0&pic=0&pag=1&srt=3&rad=1000&lat=40.8019065856934&lng=-73.9539947509766'
 
 driver = webdriver.PhantomJS(executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs')
 numPages = getNumPages(driver, URL)
@@ -79,7 +79,7 @@ while pageCounter <= numPages:
 		sheet1.write(rowCounter, 5, movingDate)
 		sheet1.write(rowCounter, 6, freshness)
 		rowCounter = rowCounter + 1
-		book.save("NYC-Brooklyn-2miles"+".xls")
+		book.save("NYC-UpManhattan-1mile"+".xls")
 
 	pageCounter = pageCounter + 1
 

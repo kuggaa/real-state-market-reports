@@ -60,7 +60,7 @@ sheet1.write(0, 5, "Location")
 PROFILES_PER_PAGE = 30
 
 #Change this for new report
-URL = 'https://www.trulia.com/for_rent/Brooklyn,NY/ROOM_FOR_RENT_type/'
+URL = 'https://www.trulia.com/for_rent/New_York,NY/'
 driver = webdriver.PhantomJS(executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs')
 numPages = getNumPages(driver, URL)
 print 'Number of pages to scrap: ', numPages
@@ -87,7 +87,7 @@ while pageCounter <= numPages:
 		sheet1.write(rowCounter, 5, address)
 		rowCounter = rowCounter + 1
 		#Change this for new document
-		book.save("Trulia-Brooklyn-ForRent"+".xls")
+		book.save("Trulia-NYC-FullSample"+".xls")
 
 	pageCounter = pageCounter + 1
 
