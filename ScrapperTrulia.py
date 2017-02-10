@@ -15,9 +15,14 @@ def getNumPages(driver, URL):
 	print 'Calculating number of pages to scrap'
 	driver.get(URL) 
 	time.sleep(5)
-	resultsCountSection = driver.find_element_by_id("resultsHeaderSub").find_element_by_class_name("typeLowlight").text
+	element = driver.find_element_by_id("srpHeader").find_element_by_class_name("typeLowlight")
+	# element = driver.find_element_by_xpath('//*[@id="srpHeader"]/div/div[1]/div[2]/div/div/div/span[2]')
+	print 'quepedo1', element
+	resultsCountSection = element.text()
+	print 'quepedo2', resultsCountSection
 	#Text returned format is (Number), this get rid off ( & )
-	resultsCountText = resultsCountSection.replace("(", '').replace(')','')
+	resultsCountText = resultsCountSection.replace('(', '').replace(')','')
+	print 'quepedo3', resultsCountText
 	resultsCount = int(resultsCountText)
 	return resultsCount/PROFILES_PER_PAGE + 1
 
@@ -46,6 +51,10 @@ def extractProfileInfo(profile):
 	return href, price, rooms, baths, area, address
 
 
+#Change this for new report
+URL = 'https://www.trulia.com/for_rent/Chicago,IL/APARTMENT,APARTMENT_COMMUNITY,APARTMENT%7CCONDO%7CTOWNHOUSE,CONDO,COOP,LOFT,TIC_type/'
+reportName = 'F12'
+
 #Initialize excel sheet
 book = xlwt.Workbook(encoding="utf-8")
 sheet1 = book.add_sheet("Data")
@@ -59,8 +68,6 @@ sheet1.write(0, 5, "Location")
 
 PROFILES_PER_PAGE = 30
 
-#Change this for new report
-URL = 'https://www.trulia.com/for_rent/New_York,NY/'
 driver = webdriver.PhantomJS(executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs')
 numPages = getNumPages(driver, URL)
 print 'Number of pages to scrap: ', numPages
@@ -87,7 +94,7 @@ while pageCounter <= numPages:
 		sheet1.write(rowCounter, 5, address)
 		rowCounter = rowCounter + 1
 		#Change this for new document
-		book.save("Trulia-NYC-FullSample"+".xls")
+		book.save(reportName+".xls")
 
 	pageCounter = pageCounter + 1
 

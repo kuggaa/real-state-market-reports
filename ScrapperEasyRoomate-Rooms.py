@@ -22,38 +22,33 @@ def getNumPages(driver, URL):
 	resultsCount = int(resultsCountText.replace(',', ''))
 	return resultsCount/PROFILES_PER_PAGE + 1
 
-def extractProfileInfo(profile):
+def extractRoomInfo(profile):
 	href = profile.find_element_by_class_name('listing__link').get_attribute("href")
 	headline = profile.find_element_by_class_name("listing-meta__headline").text.split("-")
-	name = headline[0]
-	age = headline[1]
-	#Some profiles don't have occupation, this if handles it
-	if len(headline) >=3 :
-		ocuppation = headline[2]
-	else:
-		ocuppation = "No especifica"
+	price = profile.find_element_by_class_name("listing-img__price").find_element_by_tag_name('span').text
 	freshness = profile.find_element_by_class_name("ui-text--orange").text
-	budget = profile.find_element_by_class_name("listing-meta__price--prefix").text
-	movingDate = profile.find_element_by_xpath("//span[@data-bind='text: resultItem.MovingDateForDisplay']").text
-	return href, name, age, ocuppation, budget, movingDate, freshness
+	metaProfile = profile.find_element_by_class_name("listing-meta__profile")
+	availableDate = metaProfile.find_element_by_xpath("//li[3]/span").text
+	housemates = metaProfile.find_element_by_xpath("//li[4]/span").text
+	description = profile.find_element_by_class_name("listing-meta__desc").find_element_by_tag_name('h2').text
+	return href, headline, price, freshness, availableDate, housemates, description
 
 
-URL = 'http://www.easyroommate.com/search/profiles/H170209175720299?amin=18&amax=99&gen=0&occ=0&pic=0&srt=3&rad=2000&lat=37.7801818847656&lng=-122.403022766113'
-reportName = 'K33'
+URL = 'http://www.easyroommate.com/search/rooms/L17020916384596?rmax=9999&bed=1&pic=0&doub=0&furn=0&shor=0&amin=18&amax=99&srt=3&rad=2000&lat=37.7785189&lng=-122.4056395'
+reportName = 'I33'
 
 PROFILES_PER_PAGE = 20
 
 #Initialize excel sheet
 book = xlwt.Workbook(encoding="utf-8")
 sheet1 = book.add_sheet("Data 1")
-#href, name, age, ocuppation, budget, movingDate, freshness
 sheet1.write(0, 0, "link")
-sheet1.write(0, 1, "name")
-sheet1.write(0, 2, "age")
-sheet1.write(0, 3, "ocuppation")
-sheet1.write(0, 4, "budget")
-sheet1.write(0, 5, "movingDate")
-sheet1.write(0, 6, "freshness")
+sheet1.write(0, 1, "headline")
+sheet1.write(0, 2, "price")
+sheet1.write(0, 3, "freshness")
+sheet1.write(0, 4, "availableDate")
+sheet1.write(0, 5, "housemates")
+sheet1.write(0, 6, "description")
 
 driver = webdriver.PhantomJS(executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs')
 numPages = getNumPages(driver, URL)
@@ -69,16 +64,16 @@ while pageCounter <= numPages:
 	driver.get(URL+'&pag='+str(pageCounter)) 
 	time.sleep(5)
 
-	profiles = driver.find_elements_by_class_name("listing__row")
-	for profile in profiles:
-		[href, name, age, ocuppation, budget, movingDate, freshness] = extractProfileInfo(profile)
+	rooms = driver.find_elements_by_class_name("listing__row")
+	for room in rooms:
+		href, headline, price, freshness, availableDate, housemates, description = extractRoomInfo(room)
 		sheet1.write(rowCounter, 0, href)
-		sheet1.write(rowCounter, 1, name)
-		sheet1.write(rowCounter, 2, age)
-		sheet1.write(rowCounter, 3, ocuppation)
-		sheet1.write(rowCounter, 4, budget)
-		sheet1.write(rowCounter, 5, movingDate)
-		sheet1.write(rowCounter, 6, freshness)
+		sheet1.write(rowCounter, 1, headline)
+		sheet1.write(rowCounter, 2, price)
+		sheet1.write(rowCounter, 3, freshness)
+		sheet1.write(rowCounter, 4, availableDate)
+		sheet1.write(rowCounter, 5, housemates)
+		sheet1.write(rowCounter, 6, description)
 		rowCounter = rowCounter + 1
 		book.save(reportName+".xls")
 
