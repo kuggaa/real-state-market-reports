@@ -34,8 +34,8 @@ def extractRoomInfo(profile):
 	return href, headline, price, freshness, availableDate, housemates, description
 
 
-URL = 'http://www.easyroommate.com/search/rooms/L17020916384596?rmax=9999&bed=1&pic=0&doub=0&furn=0&shor=0&amin=18&amax=99&srt=3&rad=2000&lat=37.7785189&lng=-122.4056395'
-reportName = 'I33'
+URL = 'http://www.easyroommate.com/search/profiles/H170209175720299?lat=37.7801818847656&lng=-122.403022766113&amin=18&amax=99&gen=0&occ=0&pic=0'
+reportName = 'J33'
 
 PROFILES_PER_PAGE = 20
 

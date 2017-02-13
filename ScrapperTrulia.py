@@ -14,11 +14,19 @@ import sys
 def getNumPages(driver, URL):
 	print 'Calculating number of pages to scrap'
 	driver.get(URL) 
-	time.sleep(5)
-	element = driver.find_element_by_id("srpHeader").find_element_by_class_name("typeLowlight")
-	# element = driver.find_element_by_xpath('//*[@id="srpHeader"]/div/div[1]/div[2]/div/div/div/span[2]')
+	time.sleep(3)
+
+	#test
+	maintitle = driver.find_element_by_tag_name('h1')
+	print 'element', maintitle
+	print 'Tile is:', maintitle.text
+	#end test
+
+
+	# element = driver.find_element_by_id("srpHeader").find_element_by_class_name("typeLowlight")
+	element = driver.find_element_by_xpath('//*[@id="srpHeader"]/div/div[1]/div[2]/div/div/div/span[2]')
 	print 'quepedo1', element
-	resultsCountSection = element.text()
+	resultsCountSection = element.text
 	print 'quepedo2', resultsCountSection
 	#Text returned format is (Number), this get rid off ( & )
 	resultsCountText = resultsCountSection.replace('(', '').replace(')','')
@@ -69,6 +77,7 @@ sheet1.write(0, 5, "Location")
 PROFILES_PER_PAGE = 30
 
 driver = webdriver.PhantomJS(executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs')
+
 numPages = getNumPages(driver, URL)
 print 'Number of pages to scrap: ', numPages
 
