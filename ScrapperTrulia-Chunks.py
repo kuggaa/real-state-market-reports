@@ -9,26 +9,25 @@
 #This version uses Chrome drive, which can be downloaded here:
 #https://sites.google.com/a/chromium.org/chromedriver/getting-started
 
+#This version divides de document in 4
+
 from selenium import webdriver
 import time
 import xlwt
 import sys
 
+PROFILES_PER_PAGE = 30
+
 #Change this for new report
-URL = 'https://www.trulia.com/for_rent/Washington,DC/APARTMENT,APARTMENT_COMMUNITY,APARTMENT%7CCONDO%7CTOWNHOUSE,CONDO,COOP,LOFT,TIC_type/'
-reportName = 'F19'
+URL = 'https://www.trulia.com/for_rent/Houston,TX/APARTMENT,APARTMENT_COMMUNITY,APARTMENT%7CCONDO%7CTOWNHOUSE,CONDO,COOP,LOFT,TIC_type/'
+reportName = 'F13-2'
 
-def getNumPages(driver, URL):
-	print 'Calculating number of pages to scrap'
-	driver.get(URL) 
-	time.sleep(3)
-
-	# element = driver.find_element_by_id("srpHeader").find_element_by_class_name("typeLowlight")
-	element = driver.find_element_by_xpath('//*[@id="srpHeader"]/div/div[1]/div[2]/div/div/div/span[2]').text
-	#Text returned format is (Number), this get rid off ( & )
-	resultsCountText = element.replace('(', '').replace(')','')
-	resultsCount = int(resultsCountText)
-	return resultsCount/PROFILES_PER_PAGE + 1
+#for the pagination
+pageCounter = 81
+#numPages
+numPages = 110
+#for the excel sheet
+rowCounter = 1
 
 def extractProfileInfo(profile):
 	href = profile.find_element_by_class_name('tileLink').get_attribute("href")
@@ -66,18 +65,10 @@ sheet1.write(0, 3, "Num Baths")
 sheet1.write(0, 4, "Area")
 sheet1.write(0, 5, "Location")
 
-PROFILES_PER_PAGE = 30
-
 # driver = webdriver.PhantomJS(executable_path='/usr/local/lib/node_modules/phantomjs/lib/phantom/bin/phantomjs')
 driver = webdriver.Chrome(executable_path='./chromedriver')
-numPages = getNumPages(driver, URL)
+
 print 'Number of pages to scrap: ', numPages
-
-
-#for the pagination
-pageCounter = 1
-#for the excel sheet
-rowCounter = 1
 while pageCounter <= numPages:
 
 	print 'Scrapping page number', pageCounter, 'out of ', numPages
